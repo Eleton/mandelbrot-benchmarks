@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
+    <style>
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 10px;
+      }
+      .container > div {
+        border: 1px solid black;
+        padding: 16px;
+      }
+      #mandelcanvas {
+        border: 1px solid #444;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <h3>JS Recursive</h3>
+        <canvas id="js_recursive" height="600" width="600"></canvas>
+      </div>
+      <div>
+        <h3>JS Iterative</h3>
+        <canvas id="js_iterative" height="600" width="600"></canvas>
+      </div>
+      <div>
+        <h3>Elixir Single</h3>
+        <canvas id="elixir_single" height="600" width="600"></canvas>
+      </div>
+      <div>
+        <h3>Elixir Multi</h3>
+        <canvas id="elixir_multi" height="600" width="600"></canvas>
+      </div>
+    </div>
+    <script>
+      const iterations = 50;
+      const queries = [
+        {
+          path: "results/js_recursive.json",
+          canvas: document.querySelector("#js_recursive"),
+        },
+        {
+          path: "results/js_iterative.json",
+          canvas: document.querySelector("#js_iterative"),
+        },
+        {
+          path: "results/elixir_single.json",
+          canvas: document.querySelector("#elixir_single"),
+        },
+        {
+          path: "results/elixir_multi.json",
+          canvas: document.querySelector("#elixir_multi"),
+        },
+      ];
+      const getData = (path, canvas) => {
+        const { width, height } = canvas;
+        const ctx = canvas.getContext("2d");
+        fetch(path)
+          .then((res) => res.json())
+          .then((matrix) => {
+            const rows = matrix.length;
+            const columns = matrix[0].length;
+            matrix.forEach((row, y) => {
+              row.forEach((n, x) => {
+                ctx.fillStyle = `hsl(${(360 / iterations) * n}, ${100}%, ${
+                  n * 2
+                }%)`;
+                ctx.fillRect(
+                  x * (width / columns),
+                  y * (height / rows),
+                  width / columns,
+                  height / rows
+                );
+              });
+            });
+          });
+      };
+      queries.forEach(({ path, canvas }) => getData(path, canvas));
+    </script>
+  </body>
+</html>
