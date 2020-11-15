@@ -53,8 +53,6 @@ content = Mandelbrot.matrix(cx - zoom, cx + zoom, cy - zoom, cy + zoom, width, h
     fn z -> Integer.to_string(Mandelbrot.mandel(z, iterations)) end)
   end)
 |> Enum.map(fn row -> row |> Enum.join(",") end)
-|> Enum.map(&("[" <> &1 <> "]"))
-|> Enum.join(",")
-|> (fn str -> ("[" <> str <> "]") end).()
+|> Enum.join("\n")
 
-File.write("results/elixir_single.json", content, [:write, :utf8])
+File.write("results/elixir_single.csv", content, [:write, :utf8])

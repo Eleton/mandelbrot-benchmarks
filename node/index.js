@@ -36,6 +36,8 @@ const mandel = (z, m) => {
 };
 
 const mat = matrix(cx - zoom, cx + zoom, cy - zoom, cy + zoom, width, height);
-const result = mat.map((row) => row.map((z) => mandel(z, iterations)));
+const result = mat
+  .map((row) => row.map((z) => mandel(z, iterations)).join(","))
+  .join("\n");
 
-fs.writeFileSync("results/js_recursive.json", JSON.stringify(result));
+fs.writeFileSync("results/js_recursive.csv", result);

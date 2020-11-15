@@ -40,7 +40,6 @@ defmodule Mandelbrot do
   def mandel_row(row, m) do
     Enum.map(row, fn c -> mandel(c, m) |> Integer.to_string end)
     |>  Enum.join(",")
-    |> (fn str -> ("[" <> str <> "]") end).()
   end
 end
 
@@ -52,9 +51,8 @@ defmodule Multi do
       end
     )
     content = Enum.reduce(stream, [], fn {:ok, str}, acc -> [str | acc] end)
-    |> Enum.join(",")
-    |> (fn str -> ("[" <> str <> "]") end).()
-    File.write("results/elixir_multi.json", content, [:write, :utf8])
+    |> Enum.join("\n")
+    File.write("results/elixir_multi.csv", content, [:write, :utf8])
   end
 end
 

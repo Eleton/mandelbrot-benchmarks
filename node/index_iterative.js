@@ -39,6 +39,8 @@ const mandelbrot = (z, m) => {
 };
 
 const mat = matrix(cx - zoom, cx + zoom, cy - zoom, cy + zoom, width, height);
-const result = mat.map((row) => row.map((z) => mandelbrot(z, iterations)));
+const result = mat
+  .map((row) => row.map((z) => mandelbrot(z, iterations)).join(","))
+  .join("\n");
 
-fs.writeFileSync("results/js_iterative.json", JSON.stringify(result));
+fs.writeFileSync("results/js_iterative.csv", result);

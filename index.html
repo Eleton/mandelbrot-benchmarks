@@ -46,19 +46,19 @@
       const iterations = 50;
       const queries = [
         {
-          path: "results/js_recursive.json",
+          path: "results/js_recursive.csv",
           canvas: document.querySelector("#js_recursive"),
         },
         {
-          path: "results/js_iterative.json",
+          path: "results/js_iterative.csv",
           canvas: document.querySelector("#js_iterative"),
         },
         {
-          path: "results/elixir_single.json",
+          path: "results/elixir_single.csv",
           canvas: document.querySelector("#elixir_single"),
         },
         {
-          path: "results/elixir_multi.json",
+          path: "results/elixir_multi.csv",
           canvas: document.querySelector("#elixir_multi"),
         },
       ];
@@ -66,8 +66,12 @@
         const { width, height } = canvas;
         const ctx = canvas.getContext("2d");
         fetch(path)
-          .then((res) => res.json())
-          .then((matrix) => {
+          .then((res) => res.text())
+          .then((data) => {
+            const matrix = data
+              .split("\n")
+              .map((row) => row.split(",").map((n) => parseInt(n)));
+
             const rows = matrix.length;
             const columns = matrix[0].length;
             matrix.forEach((row, y) => {
