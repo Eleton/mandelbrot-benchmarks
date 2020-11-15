@@ -41,6 +41,14 @@
         <h3>Elixir Multi</h3>
         <canvas id="elixir_multi" height="600" width="600"></canvas>
       </div>
+      <div>
+        <h3>Haskell</h3>
+        <canvas id="haskell" height="601" width="601"></canvas>
+      </div>
+      <div>
+        <h3>Rust</h3>
+        <canvas id="rust" height="600" width="600"></canvas>
+      </div>
     </div>
     <script>
       const iterations = 50;
@@ -61,6 +69,14 @@
           path: "results/elixir_multi.csv",
           canvas: document.querySelector("#elixir_multi"),
         },
+        {
+          path: "results/haskell.csv",
+          canvas: document.querySelector("#haskell")
+        },
+        {
+          path: "results/rust.csv",
+          canvas: document.querySelector("#rust")
+        }
       ];
       const getData = (path, canvas) => {
         const { width, height } = canvas;
