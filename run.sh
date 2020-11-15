@@ -11,4 +11,8 @@ echo "Elixir Single:" &&
 time elixir elixir/mandelbrot.exs &&
 echo "" &&
 echo "Elixir Multi:" &&
-time elixir elixir/mandelbrot_multi.exs
+time elixir elixir/mandelbrot_multi.exs &&
+echo "" &&
+echo "Rust:" &&
+cargo build --release --manifest-path=rust/Cargo.toml &&
+time ./rust/target/release/rust

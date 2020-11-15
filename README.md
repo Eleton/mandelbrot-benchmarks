@@ -14,10 +14,11 @@ At the moment there are four calculations written in two languages:
    Written in Node.js, using a iterative algorithm.
 3. Elixir Single. Written in Elixir, without any concurrent calculations.
 4. Elixir Multi. Written in Elixir, with concurrent calculations.
+5. Rust. Written in Rust.
 
 ## How to run?
 
-Assuming Node and Elixir are installed, run:
+Assuming Node, Elixir and Rust are installed, run:
 
 ```
 bash run.sh
@@ -28,6 +29,7 @@ If you only want to run the scripts of one language:
 ```
 bash run_js.sh
 bash run_ex.sh
+bash run_rs.sh
 ```
 
 Result files will be generated and placed in `results/`.
@@ -46,14 +48,17 @@ and visit `localhost:4000` in your web browser.
 
 ```
 Javascript Recursive:
-0m7.424s
+0m8.350s
 
 Javascript Iterative:
-0m6.535s
+0m6.322s
 
 Elixir Single:
-0m21.274s
+0m19.015s
 
 Elixir Multi:
-0m12.688s
+0m11.086s
+
+Rust:
+0m0.396s
 ```
