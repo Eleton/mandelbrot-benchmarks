@@ -7,9 +7,11 @@ import Data.Function ((&))
 import Data.List (intercalate)
 import System.Environment (lookupEnv)
 
+-- | Given a maximum depth, maxDepth, and a complex point, c,
+-- this returns the iterations required before it diverges, (||z|| > 2).
+-- Returns zero if it the point is part of the mandelbrot set.
 mandelbrot :: Int -> Complex Float -> Int
-mandelbrot maxDepth c = moveMaxToZero $
-  stepsUntilDivergence complexZero zStep diverging maxDepth
+mandelbrot maxDepth c = moveMaxToZero $ stepsUntil diverging complexZero zStep maxDepth
   where zStep zLast = zLast^2 + c
         diverging z = magnitude z > 2
         complexZero = 0 :+ 0
@@ -17,14 +19,14 @@ mandelbrot maxDepth c = moveMaxToZero $
           | i == maxDepth = 0
           | otherwise     = i
 
-stepsUntilDivergence :: a -> (a -> a) -> (a -> Bool) -> Int -> Int
-stepsUntilDivergence start step diverging depth =
-    length . takeWhile (not . diverging) . take depth $ iterate step start
+-- | Given a predicate, a starting point, a step function and a maximum number of steps
+-- this functions returns the number of steps needed until the predicate is true.
+stepsUntil :: (a -> Bool) -> a -> (a -> a) -> Int -> Int
+stepsUntil pred start step depth = length . takeWhile (not . pred) . take depth $ iterate step start
 
-mandelbrotMap xCenter yCenter zoom iterations width height =
-  fmap (mandelbrot iterations) <$> matrix
-      where
-        matrix = [[x :+ y | x <- range xCenter width] | y <- range yCenter height]
+-- | Generates a matrix representing the mandelbrot set.
+mandelbrotMap xCenter yCenter zoom iterations width height = fmap (mandelbrot iterations) <$> matrix
+  where matrix = [[x :+ y | x <- range xCenter width] | y <- range yCenter height]
         range c l = [c - zoom, c - zoom +((2*zoom) / l)..(c + zoom)]
 
 main :: IO ()
@@ -36,7 +38,4 @@ main = do
     <*> (maybe 500    read <$> lookupEnv "ITERATIONS")
     <*> (maybe 600    read <$> lookupEnv "WIDTH")
     <*> (maybe 600    read <$> lookupEnv "HEIGHT")
-  resultingMap
-      <&> intercalate "," . fmap show
-      & intercalate "\n"
-      & writeFile "results/haskell.csv"
+  writeFile "results/haskell.csv" .  intercalate "\n" $ intercalate "," . fmap show <$> resultingMap
