@@ -15,7 +15,7 @@ func main() {
 	height, _ := strconv.ParseInt(os.Getenv("HEIGHT"), 10, 64)
 
 	matrix := generateMatrix(xCenter, yCenter, zoom, int(width), int(height))
-	result := naïveMandelbrot(int(depth), matrix)
+	result := naiveMandelbrot(int(depth), matrix)
 
 	stringMatrix := make([][]string, len(result))
 	for i, r := range result {
@@ -45,7 +45,7 @@ func generateMatrix(xCenter float64, yCenter float64, zoom float64, width int, h
 	return matrix
 }
 
-func naïveMandelbrot(maxDepth int, cMatrix [][]complex128) [][]int {
+func naiveMandelbrot(maxDepth int, cMatrix [][]complex128) [][]int {
 	result := make([][]int, len(cMatrix))
 	for i, r := range cMatrix {
 		result[i] = make([]int, len(r))
